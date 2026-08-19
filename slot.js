@@ -47,7 +47,7 @@ function displayDigit(digits) {
 //更新用
 setInterval(() => {
     randomNumber = Math.random();
-    display_area.innerText = randomNumber;
+    //display_area.innerText = randomNumber;
 
     for (let i = 0; i < lilleRotation.length; i++) {
         if (lilleRotation[i]) {
