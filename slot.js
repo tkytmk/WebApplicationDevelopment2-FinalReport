@@ -12,7 +12,7 @@ let hitCount = 0;
 
 let resultDigit = generateDigits();
 
-let lilleRotation = [false,false,false];
+let lilleRotation = [false, false, false];
 
 let displayLille = resultDigit;
 
@@ -55,7 +55,7 @@ setInterval(() => {
         } else {
             displayLille[i] = resultDigit[i]
         }
-        
+
     }
 
     displayDigit(displayLille);
@@ -94,11 +94,11 @@ document.addEventListener('keydown', (event) => {
 
     }
 
-    if (event.key === 'Enter') {
-        //console.log(generateDigits());
-        let result = generateDigits()
-        console.log(result);
-    }
+    // if (event.key === 'Enter') {
+    //     //console.log(generateDigits());
+    //     let result = generateDigits()
+    //     console.log(result);
+    // }
 
     if (event.key === 'v') {
         console.log("v");
@@ -113,7 +113,7 @@ document.addEventListener('keydown', (event) => {
         lilleRotation[2] = false;
     }
 
-    if (event.key === 'a') {
-        lilleRotation.fill(false);
-    }
+    // if (event.key === 'a') {
+    //     lilleRotation.fill(false);
+    // }
 });
