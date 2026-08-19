@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>Webスロット(仮)</title>
 </head>
 <body>
@@ -13,9 +14,11 @@
     <p>スペースキー：スタート。スロットが始動します。<br>
         v,b,nキー：ストップ。3つの桁がそれぞれ止まります。</p>
     <h2 id="display_area"></h2>
-    <p id="lilleLeft"></p>
-    <p id="lilleMiddle"></p>
-    <p id="lilleRight"></p>
+    <div class="field">
+        <p class="card" id="lilleLeft"></p>
+        <p class="card" id="lilleMiddle"></p>
+        <p class="card" id="lilleRight"></p>
+    </div>
     <script src="slot.js"></script>
 </body>
 </html>
