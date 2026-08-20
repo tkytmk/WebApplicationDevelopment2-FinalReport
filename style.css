@@ -1,3 +1,11 @@
+.display_area {
+    height: 5rem;
+}
+
+.display_area p {
+    margin: 0.5rem 0;
+}
+
 .slot {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
