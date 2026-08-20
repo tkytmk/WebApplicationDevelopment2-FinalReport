@@ -1,8 +1,17 @@
-.field {
-display: flex;
+.slot {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 1fr 0.5fr;
+    place-items: center;
+    margin: 0 25vw;
 }
 
-.card {
+.lille {
     font-size: 5rem;
+    margin: 1rem;
+}
+
+.navi {
+    font-size: 2rem;
     margin: 1rem;
 }

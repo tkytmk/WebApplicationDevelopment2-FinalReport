@@ -8,16 +8,22 @@
 </head>
 <body>
     <h1>Webスロット(仮)</h1>
-    <p>ver.20260819</p>
+    <p>ver.20260820</p>
     <p>パチスロっぽいものです。仕組みは全然違います。</p>
     <h2>操作説明</h2>
-    <p>スペースキー：スタート。スロットが始動します。<br>
-        v,b,nキー：ストップ。3つの桁がそれぞれ止まります。</p>
+    <p>
+        スペースキー：スタート。スロットが始動します。<br>
+        v,b,nキー：ストップ。3つの桁がそれぞれ止まります。<br>
+    </p>
     <h2 id="display_area"></h2>
-    <div class="field">
-        <p class="card" id="lilleLeft"></p>
-        <p class="card" id="lilleMiddle"></p>
-        <p class="card" id="lilleRight"></p>
+    <div class="slot">
+        <p class="lille" id="lilleLeft"></p>
+        <p class="lille" id="lilleMiddle"></p>
+        <p class="lille" id="lilleRight"></p>
+
+        <p class="navi" id="naviLeft"></p>
+        <p class="navi" id="navimiddle"></p>
+        <p class="navi" id="naviRight"></p>
     </div>
     <script src="slot.js"></script>
 </body>
