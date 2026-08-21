@@ -22,14 +22,13 @@ let currentMode; // 現在のモード
 let remainCount; // 残りゲームカウント
 
 let isHit = false;
-let rotationCount =0;
+let rotationCount = 0;
 let hitCount = 0;
 let variables = {};
 
+/// リール関連
 let resultDigit = generateDigits(); // 結果確定で出てきた数字を入れる変数 ランダムな値で初期化
-
 let lilleRotation = [false, false, false]; // 各リールが回っているか否か
-
 let displayLille = resultDigit; // 実際に表示されるリールの数字
 
 // アタリ出目リスト
@@ -101,7 +100,7 @@ const normal = {
         {
             resultName: "special",
             probability: 0.005,
-            hitAction: () => { console.log("special"); },
+            hitAction: () => { console.log("special"); change(specialChance); },
             digit: digitList.zero,
         },
         {
@@ -113,6 +112,27 @@ const normal = {
         result("regular", 0.05, () => { console.log("reguler"); change(regularChance); }, digitList.odd),
         result("small", 0.1, () => { console.log("small"); }, digitList.even),
     ],
+    variables: {
+
+    },
+    notHit() {
+        console.log("noHit");
+    }
+}
+
+const reentry = {
+    name: "引き戻し",
+    gameCount: 15,
+    gameCountOver: () => { change(normal); },
+    results: [
+        result("special", 0.005, () => { console.log("special"); change(specialChance); }, digitList.zero),
+        result("big", 0.05, () => { console.log("big"); change(bigChance); }, digitList.seven),
+        result("regular", 0, 1, () => { console.log("reguler"); change(regularChance); }, digitList.odd),
+        result("small", 0.1, () => { console.log("small"); }, digitList.even),
+    ],
+    variables: {
+
+    },
     notHit() {
         console.log("noHit");
     }
@@ -120,14 +140,17 @@ const normal = {
 
 const regularChance = {
     name: "確変",
-    gameCount: 30,
-    gameCountOver: () => { change(normal) },
+    gameCount: 20,
+    gameCountOver: () => { change(reentry); },
     results: [
-        result("special", 0.005, () => { console.log("special"); }, digitList.zero),
+        result("special", 0.005, () => { console.log("special"); change(specialChance); }, digitList.zero),
         result("big", 0.01, () => { console.log("big"); }, digitList.seven),
         result("regular", 0.05, () => { console.log("regular"); }, digitList.odd),
         result("small", 0.4, () => { console.log("small"); }, digitList.even),
     ],
+    variables: {
+
+    },
     notHit() {
         console.log("noHit");
     }
@@ -136,13 +159,33 @@ const regularChance = {
 const bigChance = {
     name: "超確変",
     gameCount: 30,
-    gameCountOver: () => { change(normal) },
+    gameCountOver: () => { change(reentry); },
     results: [
-        result("special", 0.005, () => { console.log("special"); }, digitList.zero),
+        result("special", 0.005, () => { console.log("special"); change(specialChance); }, digitList.zero),
         result("big", 0.01, () => { console.log("big"); }, digitList.seven),
         result("regular", 0.05, () => { console.log("regular"); }, digitList.odd),
         result("small", 0.6, () => { console.log("small"); }, digitList.even),
     ],
+    variables: {
+
+    },
+    notHit() {
+        console.log("noHit");
+    }
+}
+
+const specialChance = {
+    name: "チャンス",
+    gameCount: 10,
+    gameCountOver: () => { change(reentry); },
+    results: [
+        result("big", 0.5, () => { console.log("big"); }, digitList.seven),
+        result("regular", 0.15, () => { console.log("regular"); }, digitList.odd),
+        result("small", 0.6, () => { console.log("small"); }, digitList.even),
+    ],
+    variables: {
+
+    },
     notHit() {
         console.log("noHit");
     }
