@@ -10,6 +10,7 @@
 ===================================================================================================
 */
 
+const display_credit = document.getElementById('display_credit');
 const display_name = document.getElementById('display_name');
 const display_comment = document.getElementById('display_comment');
 const display_gameCount = document.getElementById('display_gameCount');
@@ -22,6 +23,7 @@ let randomNumber; // 乱数格納用変数
 let currentMode; // 現在のモード
 let remainCount; // 残りゲームカウント
 
+let credit = 0;
 let isHit = false;
 let rotationCount = 0;
 let hitCount = 0;
@@ -102,17 +104,17 @@ const normal = {
         {
             resultName: "special",
             probability: 0.005,
-            hitAction: () => { console.log("special"); change(specialChance); },
+            hitAction: () => { console.log("special"); change(specialChance); credit += 20; },
             digit: digitList.zero,
         },
         {
             resultName: "big",
             probability: 0.01,
-            hitAction: () => { console.log("big"); change(bigChance); },
+            hitAction: () => { console.log("big"); change(bigChance); credit += 15; },
             digit: digitList.seven,
         },
-        result("regular", 0.05, () => { console.log("reguler"); change(regularChance); }, digitList.odd),
-        result("small", 0.1, () => { console.log("small"); }, digitList.even),
+        result("regular", 0.05, () => { console.log("reguler"); change(regularChance); credit += 10; }, digitList.odd),
+        result("small", 0.1, () => { console.log("small"); credit += 5; }, digitList.even),
     ],
     variables: {
 
@@ -128,10 +130,10 @@ const reentry = {
     gameCount: 15,
     gameCountOver: () => { change(normal); },
     results: [
-        result("special", 0.01, () => { console.log("special"); change(specialChance); }, digitList.zero),
-        result("big", 0.05, () => { console.log("big"); change(bigChance); }, digitList.seven),
-        result("regular", 0.1, () => { console.log("reguler"); change(regularChance); }, digitList.odd),
-        result("small", 0.1, () => { console.log("small"); }, digitList.even),
+        result("special", 0.01, () => { console.log("special"); change(specialChance); credit += 20; }, digitList.zero),
+        result("big", 0.05, () => { console.log("big"); change(bigChance); credit += 15; }, digitList.seven),
+        result("regular", 0.1, () => { console.log("reguler"); change(regularChance); credit += 10; }, digitList.odd),
+        result("small", 0.1, () => { console.log("small"); credit += 5; }, digitList.even),
     ],
     variables: {
 
@@ -147,10 +149,10 @@ const regularChance = {
     gameCount: 20,
     gameCountOver: () => { change(reentry); },
     results: [
-        result("special", 0.005, () => { console.log("special"); change(specialChance); }, digitList.zero),
-        result("big", 0.01, () => { console.log("big"); }, digitList.seven),
-        result("regular", 0.05, () => { console.log("regular"); }, digitList.odd),
-        result("small", 0.4, () => { console.log("small"); }, digitList.even),
+        result("special", 0.005, () => { console.log("special"); change(specialChance); credit += 20; }, digitList.zero),
+        result("big", 0.01, () => { console.log("big"); credit += 15; }, digitList.seven),
+        result("regular", 0.05, () => { console.log("regular"); credit += 10; }, digitList.odd),
+        result("small", 0.4, () => { console.log("small"); credit += 5; }, digitList.even),
     ],
     variables: {
 
@@ -166,10 +168,10 @@ const bigChance = {
     gameCount: 30,
     gameCountOver: () => { change(reentry); },
     results: [
-        result("special", 0.005, () => { console.log("special"); change(specialChance); }, digitList.zero),
-        result("big", 0.01, () => { console.log("big"); }, digitList.seven),
-        result("regular", 0.05, () => { console.log("regular"); }, digitList.odd),
-        result("small", 0.6, () => { console.log("small"); }, digitList.even),
+        result("special", 0.005, () => { console.log("special"); change(specialChance); credit += 20; }, digitList.zero),
+        result("big", 0.01, () => { console.log("big"); credit += 15; }, digitList.seven),
+        result("regular", 0.05, () => { console.log("regular"); credit += 10; }, digitList.odd),
+        result("small", 0.6, () => { console.log("small"); credit += 5; }, digitList.even),
     ],
     variables: {
 
@@ -185,8 +187,8 @@ const specialChance = {
     gameCount: 10,
     gameCountOver: () => { change(reentry); },
     results: [
-        result("special", 0.1, () => { console.log("special"); change(specialBonus); }, digitList.zero),
-        result("small", 0.6, () => { console.log("small"); }, digitList.even),
+        result("special", 0.1, () => { console.log("special"); change(specialBonus); credit += 20; }, digitList.zero),
+        result("small", 0.6, () => { console.log("small"); credit += 5; }, digitList.even),
     ],
     variables: {
 
@@ -198,13 +200,13 @@ const specialChance = {
 
 const specialBonus = {
     name: "スペシャル",
-    comment: "777が当たると残りゲーム数+10回！",
+    comment: "奇数ゾロ目が当たると残りゲーム数+10回！",
     gameCount: 30,
     gameCountOver: () => { change(reentry); },
     results: [
-        result("big", 0.05, () => { console.log("big"); remainCount += 50; }, digitList.seven),
-        result("regular", 0.1, () => { console.log("regular"); remainCount += 10; }, digitList.odd),
-        result("small", 0.6, () => { console.log("small"); }, digitList.even),
+        result("big", 0.05, () => { console.log("big"); remainCount += 50; credit += 15; }, digitList.seven),
+        result("regular", 0.1, () => { console.log("regular"); remainCount += 10; credit += 10; }, digitList.odd),
+        result("small", 0.6, () => { console.log("small"); credit += 5; }, digitList.even),
     ],
     variables: {
 
@@ -227,6 +229,7 @@ const specialBonus = {
 currentMode = normal;
 remainCount = currentMode.gameCount;
 
+display_credit.innerText = `残りクレジット：${credit}`;
 display_name.innerText = `現在のモード：${currentMode.name}`
 display_comment.innerText = currentMode.comment;
 display_gameCount.innerText = ``;
@@ -246,6 +249,10 @@ setInterval(() => {
 
     displayDigit(displayLille);
 
+    if (lilleRotation.every(x => x === false)) {
+        display_credit.innerText = `残りクレジット：${credit}`;
+    }
+
 }, 1);
 
 // キー入力検知
@@ -255,8 +262,10 @@ document.addEventListener('keydown', (event) => {
         console.log(randomNumber);
 
         remainCount--;
+        credit--;
         isHit = false;
 
+        display_credit.innerText = `残りクレジット：${credit}`;
         display_name.innerText = `現在のモード：${currentMode.name}`;
         display_comment.innerText = currentMode.comment;
 
