@@ -11,6 +11,7 @@
 */
 
 const display_name = document.getElementById('display_name');
+const display_comment = document.getElementById('display_comment');
 const display_gameCount = document.getElementById('display_gameCount');
 
 const lilleLeft = document.getElementById('lilleLeft');
@@ -94,6 +95,7 @@ function change(mode) {
 
 const normal = {
     name: "通常",
+    comment: "奇数ゾロ目が当たると確変！",
     gameCount: Infinity,
     gameCountOver: () => { console.log("gameCountOver"); },
     results: [
@@ -122,12 +124,13 @@ const normal = {
 
 const reentry = {
     name: "引き戻し",
+    comment: "奇数ゾロ目が出やすい！",
     gameCount: 15,
     gameCountOver: () => { change(normal); },
     results: [
-        result("special", 0.005, () => { console.log("special"); change(specialChance); }, digitList.zero),
+        result("special", 0.01, () => { console.log("special"); change(specialChance); }, digitList.zero),
         result("big", 0.05, () => { console.log("big"); change(bigChance); }, digitList.seven),
-        result("regular", 0, 1, () => { console.log("reguler"); change(regularChance); }, digitList.odd),
+        result("regular", 0.1, () => { console.log("reguler"); change(regularChance); }, digitList.odd),
         result("small", 0.1, () => { console.log("small"); }, digitList.even),
     ],
     variables: {
@@ -140,6 +143,7 @@ const reentry = {
 
 const regularChance = {
     name: "確変",
+    comment: "偶数ゾロ目が出やすい！",
     gameCount: 20,
     gameCountOver: () => { change(reentry); },
     results: [
@@ -158,6 +162,7 @@ const regularChance = {
 
 const bigChance = {
     name: "超確変",
+    comment: "偶数ゾロ目がもっと出やすい！",
     gameCount: 30,
     gameCountOver: () => { change(reentry); },
     results: [
@@ -176,11 +181,29 @@ const bigChance = {
 
 const specialChance = {
     name: "チャンス",
+    comment: "もう1度000を出せ！",
     gameCount: 10,
     gameCountOver: () => { change(reentry); },
     results: [
-        result("big", 0.5, () => { console.log("big"); }, digitList.seven),
-        result("regular", 0.15, () => { console.log("regular"); }, digitList.odd),
+        result("special", 0.1, () => { console.log("special"); change(specialBonus); }, digitList.zero),
+        result("small", 0.6, () => { console.log("small"); }, digitList.even),
+    ],
+    variables: {
+
+    },
+    notHit() {
+        console.log("noHit");
+    }
+}
+
+const specialBonus = {
+    name: "スペシャル",
+    comment: "777が当たると残りゲーム数+10回！",
+    gameCount: 30,
+    gameCountOver: () => { change(reentry); },
+    results: [
+        result("big", 0.05, () => { console.log("big"); remainCount += 50; }, digitList.seven),
+        result("regular", 0.1, () => { console.log("regular"); remainCount += 10; }, digitList.odd),
         result("small", 0.6, () => { console.log("small"); }, digitList.even),
     ],
     variables: {
@@ -205,6 +228,7 @@ currentMode = normal;
 remainCount = currentMode.gameCount;
 
 display_name.innerText = `現在のモード：${currentMode.name}`
+display_comment.innerText = currentMode.comment;
 display_gameCount.innerText = ``;
 
 //画面更新
@@ -234,6 +258,7 @@ document.addEventListener('keydown', (event) => {
         isHit = false;
 
         display_name.innerText = `現在のモード：${currentMode.name}`;
+        display_comment.innerText = currentMode.comment;
 
         if (currentMode.name === "通常") {
             display_gameCount.innerText = ``;
