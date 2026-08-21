@@ -24,6 +24,7 @@ let remainCount; // 残りゲームカウント
 let isHit = false;
 let rotationCount =0;
 let hitCount = 0;
+let variables = {};
 
 let resultDigit = generateDigits(); // 結果確定で出てきた数字を入れる変数 ランダムな値で初期化
 
@@ -76,6 +77,12 @@ function displayDigit(digits) {
     lilleRight.innerText = digits[2];
 }
 
+
+function change(mode) {
+    currentMode = mode;
+    remainCount = mode.gameCount;
+}
+
 /*
 ===================================================================================================
 
@@ -100,16 +107,12 @@ const normal = {
         {
             resultName: "big",
             probability: 0.01,
-            hitAction: () => { console.log("big"); bigChance.change(); },
+            hitAction: () => { console.log("big"); change(bigChance); },
             digit: digitList.seven,
         },
-        result("regular", 0.05, () => { console.log("reguler"); regularChance.change(); }, digitList.odd),
+        result("regular", 0.05, () => { console.log("reguler"); change(regularChance); }, digitList.odd),
         result("small", 0.1, () => { console.log("small"); }, digitList.even),
     ],
-    change() {
-        currentMode = this;
-        remainCount = this.gameCount;
-    },
     notHit() {
         console.log("noHit");
     }
@@ -118,17 +121,13 @@ const normal = {
 const regularChance = {
     name: "確変",
     gameCount: 30,
-    gameCountOver: () => { normal.change() },
+    gameCountOver: () => { change(normal) },
     results: [
         result("special", 0.005, () => { console.log("special"); }, digitList.zero),
         result("big", 0.01, () => { console.log("big"); }, digitList.seven),
         result("regular", 0.05, () => { console.log("regular"); }, digitList.odd),
         result("small", 0.4, () => { console.log("small"); }, digitList.even),
     ],
-    change() {
-        currentMode = this;
-        remainCount = this.gameCount;
-    },
     notHit() {
         console.log("noHit");
     }
@@ -137,17 +136,13 @@ const regularChance = {
 const bigChance = {
     name: "超確変",
     gameCount: 30,
-    gameCountOver: () => { normal.change() },
+    gameCountOver: () => { change(normal) },
     results: [
         result("special", 0.005, () => { console.log("special"); }, digitList.zero),
         result("big", 0.01, () => { console.log("big"); }, digitList.seven),
         result("regular", 0.05, () => { console.log("regular"); }, digitList.odd),
         result("small", 0.6, () => { console.log("small"); }, digitList.even),
     ],
-    change() {
-        currentMode = this;
-        remainCount = this.gameCount;
-    },
     notHit() {
         console.log("noHit");
     }
@@ -167,7 +162,7 @@ currentMode = normal;
 remainCount = currentMode.gameCount;
 
 display_name.innerText = `現在のモード：${currentMode.name}`
-display_gameCount.innerText = ` `;
+display_gameCount.innerText = ``;
 
 //画面更新
 setInterval(() => {
@@ -198,7 +193,7 @@ document.addEventListener('keydown', (event) => {
         display_name.innerText = `現在のモード：${currentMode.name}`;
 
         if (currentMode.name === "通常") {
-            display_gameCount.innerText = ` `;
+            display_gameCount.innerText = ``;
         } else {
             display_gameCount.innerText = `残り回数：${remainCount}`;
         }
