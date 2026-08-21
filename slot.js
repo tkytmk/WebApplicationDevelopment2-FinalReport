@@ -1,11 +1,13 @@
 'use strict';
 
 /*
+===================================================================================================
 
 
 変数・定数・関数定義
 
 
+===================================================================================================
 */
 
 const display_name = document.getElementById('display_name');
@@ -19,6 +21,8 @@ let randomNumber; // 乱数格納用変数
 let currentMode; // 現在のモード
 let remainCount; // 残りゲームカウント
 
+let isHit = false;
+let rotationCount =0;
 let hitCount = 0;
 
 let resultDigit = generateDigits(); // 結果確定で出てきた数字を入れる変数 ランダムな値で初期化
@@ -73,11 +77,13 @@ function displayDigit(digits) {
 }
 
 /*
+===================================================================================================
 
 
 モード定義
 
 
+===================================================================================================
 */
 
 const normal = {
@@ -103,6 +109,9 @@ const normal = {
     change() {
         currentMode = this;
         remainCount = this.gameCount;
+    },
+    notHit() {
+        console.log("noHit");
     }
 }
 
@@ -119,6 +128,9 @@ const regularChance = {
     change() {
         currentMode = this;
         remainCount = this.gameCount;
+    },
+    notHit() {
+        console.log("noHit");
     }
 }
 
@@ -135,15 +147,20 @@ const bigChance = {
     change() {
         currentMode = this;
         remainCount = this.gameCount;
+    },
+    notHit() {
+        console.log("noHit");
     }
 }
 
 /*
+===================================================================================================
 
 
 処理部分
 
 
+===================================================================================================
 */
 
 currentMode = normal;
@@ -176,6 +193,7 @@ document.addEventListener('keydown', (event) => {
         console.log(randomNumber);
 
         remainCount--;
+        isHit = false;
 
         display_name.innerText = `現在のモード：${currentMode.name}`;
 
@@ -198,12 +216,13 @@ document.addEventListener('keydown', (event) => {
                 resultDigit = result.digit[Math.floor(Math.random() * result.digit.length)]
                 result.hitAction();
                 console.log(resultDigit);
-
+                isHit = true;
                 break;
             }
         }
 
-        if (resultDigit.length === 0) {
+        if (!isHit) {
+            currentMode.notHit();
             resultDigit = generateDigits();
             console.log(resultDigit);
             displayDigit(resultDigit);
