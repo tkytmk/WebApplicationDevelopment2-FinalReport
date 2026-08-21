@@ -127,12 +127,12 @@ const normal = {
 const reentry = {
     name: "引き戻し",
     comment: "奇数ゾロ目が出やすい！",
-    gameCount: 15,
+    gameCount: 10,
     gameCountOver: () => { change(normal); },
     results: [
-        result("special", 0.01, () => { console.log("special"); change(specialChance); credit += 20; }, digitList.zero),
-        result("big", 0.05, () => { console.log("big"); change(bigChance); credit += 15; }, digitList.seven),
-        result("regular", 0.1, () => { console.log("reguler"); change(regularChance); credit += 10; }, digitList.odd),
+        result("special", 0.005, () => { console.log("special"); change(specialChance); credit += 20; }, digitList.zero),
+        result("big", 0.02, () => { console.log("big"); change(bigChance); credit += 15; }, digitList.seven),
+        result("regular", 0.075, () => { console.log("reguler"); change(regularChance); credit += 10; }, digitList.odd),
         result("small", 0.1, () => { console.log("small"); credit += 5; }, digitList.even),
     ],
     variables: {
